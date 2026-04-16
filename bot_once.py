@@ -3,8 +3,8 @@ import os, time, json, base64
 os.environ['TZ'] = 'Asia/Ho_Chi_Minh'
 time.tzset()
 
-SHEET_ID   = os.environ.get('SHEET_ID', '1b2Oa3EQGw1QtuIkPz8BMaHV4aBltztJxJjGn15ZxhbA')
-SHEET_NAME = os.environ.get('SHEET_NAME', 'Sheet1')
+SHEET_ID   = os.environ.get('SHEET_ID', 'SHEET_ID')
+SHEET_NAME = os.environ.get('SHEET_NAME', 'SHEET_NAME')
 THREADS_URL = 'https://www.threads.com'
 CREDENTIALS_FILE = '/tmp/credentials.json'
 SESSION_FILE     = '/tmp/threads_session.json'
