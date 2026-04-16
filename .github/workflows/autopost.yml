@@ -1,0 +1,51 @@
+name: Threads AutoPost
+
+on:
+  workflow_dispatch:
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: ⬇️ Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: 📦 Cài thư viện Python
+        run: pip install -r requirements.txt
+
+      - name: 🎭 Cài Playwright Chromium
+        run: |
+          playwright install chromium
+          playwright install-deps chromium
+
+      - name: 🤖 Chạy bot đăng bài
+        env:
+          SHEET_ID: ${{ secrets.SHEET_ID }}
+          SHEET_NAME: ${{ secrets.SHEET_NAME }}
+          CREDENTIALS_JSON_B64: ${{ secrets.CREDENTIALS_JSON_B64 }}
+          THREADS_SESSION_B64: ${{ secrets.THREADS_SESSION_B64 }}
+        run: python bot_once.py
+
+      # Upload screenshot DÙ thành công hay thất bại
+      - name: 📸 Upload screenshots debug
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-screenshots
+          path: |
+            /tmp/debug_after_type.png
+            /tmp/debug_after_image.png
+            /tmp/debug_before_post.png
+            /tmp/debug_after_post.png
+            /tmp/debug_login.png
+            /tmp/debug_no_post_btn.png
+            /tmp/err_exception.png
+          if-no-files-found: ignore
