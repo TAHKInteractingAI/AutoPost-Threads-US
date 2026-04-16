@@ -1,4 +1,4 @@
-name: Threads AutoPost
+name: Threads AutoPost US
 
 on:
   workflow_dispatch:
